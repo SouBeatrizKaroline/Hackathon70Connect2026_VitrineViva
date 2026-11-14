@@ -292,3 +292,8 @@
     font-family: Georgia, 'Times New Roman', serif;
   }
 }
+
+/* Oculta o selo do Skip, que cobria botões da barra fixa do rodapé no celular. */
+#skip-badge {
+  display: none !important;
+}
