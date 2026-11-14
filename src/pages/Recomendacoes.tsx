@@ -40,7 +40,23 @@ import {
   saveDiagnostic,
   createDemand,
 } from '@/services/vitrineService'
-import type { SolutionItem, DiagnosticRecord } from '@/types/vitrine'
+import type { SolutionItem, DiagnosticRecord, ChannelKey, ObjectiveKey } from '@/types/vitrine'
+
+const CHANNEL_LABELS: Record<ChannelKey, string> = {
+  whatsapp: 'WhatsApp',
+  instagram: 'Instagram',
+  loja_fisica: 'Loja física / balcão',
+  site: 'Site / loja virtual',
+  telefone: 'Telefone',
+}
+
+const GOAL_LABELS: Record<ObjectiveKey, string> = {
+  vender_mais: 'vender mais',
+  responder_rapido: 'responder mais rápido',
+  recuperar_pedidos: 'recuperar pedidos',
+  controlar_estoque: 'controlar o estoque',
+  organizar_entregas: 'organizar entregas',
+}
 
 export default function RecomendacoesPage() {
   const navigate = useNavigate()
@@ -146,26 +162,55 @@ export default function RecomendacoesPage() {
     // Objetivos atendidos
     const matchedGoals = sol.objectives?.filter((g) => goals.includes(g)) || []
     score += matchedGoals.length * 20
-    if (matchedGoals.length > 0) {
-      reasons.push(`Atende ${matchedGoals.length} dos seus objetivos prioritários.`)
-    }
 
     // Canais compatíveis
     const matchedChannels = sol.channels?.filter((c) => channels.includes(c)) || []
     score += matchedChannels.length * 15
-    if (matchedChannels.length > 0) {
-      reasons.push(`Funciona com seu canal de vendas (${matchedChannels.join(', ')}).`)
-    }
 
     // Esforço e facilidade de teste
     if (sol.implementation_effort === 'baixo') score += 15
     if (sol.trial_ease === 'imediato') score += 20
 
+    // DOIS motivos específicos usando os dados do diagnóstico
+    const specificReasons: string[] = [
+      `Cabe no seu orçamento de R$ ${budgetQuick} por mês — custa R$ ${sol.price_monthly}/mês.`,
+    ]
+    if (matchedChannels.length > 0) {
+      specificReasons.push(
+        `Funciona com seu canal de vendas: ${matchedChannels
+          .map((c) => CHANNEL_LABELS[c] || c)
+          .join(' e ')}.`,
+      )
+    } else if (matchedGoals.length > 0) {
+      specificReasons.push(`Ajuda exatamente no seu objetivo de ${GOAL_LABELS[matchedGoals[0]]}.`)
+    } else if (sol.implementation_effort === 'baixo') {
+      specificReasons.push('Implantação simples, sem trocar o sistema que você já usa.')
+    } else {
+      specificReasons.push('Compatível com o perfil geral da sua loja no diagnóstico.')
+    }
+
+    // Ponto de atenção quando houver
+    let attentionPoint: string | undefined
+    const slack = budgetQuick - sol.price_monthly
+    if (slack <= Math.max(10, budgetQuick * 0.25)) {
+      attentionPoint = `Fica perto do seu teto: sobram só R$ ${slack} por mês de folga.`
+    } else if (sol.trial_ease !== 'imediato') {
+      attentionPoint =
+        sol.trial_ease === 'sete_dias'
+          ? 'O teste não é imediato: são até 7 dias para começar.'
+          : 'O teste precisa de agendamento com a solução.'
+    } else if (sol.implementation_effort !== 'baixo') {
+      attentionPoint = 'A implantação exige algum esforço da sua equipe antes de rodar.'
+    } else if (diagnostic?.main_channel && !sol.channels?.includes(diagnostic.main_channel)) {
+      attentionPoint = `Não cobre o seu canal principal (${CHANNEL_LABELS[diagnostic.main_channel]}).`
+    }
+
     eligibleSolutions.push({
       item: sol,
       score,
-      matchReasons: reasons,
+      matchReasons: specificReasons,
     })
+    ;(eligibleSolutions[eligibleSolutions.length - 1] as any).attentionPoint = attentionPoint
   }
 
   // Ordenar elegíveis pelo score descendente
@@ -445,7 +490,7 @@ export default function RecomendacoesPage() {
           </div>
 
           <div className="grid grid-cols-1 gap-6">
-            {eligibleSolutions.map(({ item, score, matchReasons }) => {
+            {eligibleSolutions.map(({ item, score, matchReasons, attentionPoint }) => {
               const isCompared = comparedIds.includes(item.id)
               return (
                 <Card
@@ -480,6 +525,30 @@ export default function RecomendacoesPage() {
                   </CardHeader>
 
                   <CardContent className="p-5 sm:p-6 pt-0 space-y-4">
+                    {/* DOIS motivos específicos + ponto de atenção, baseados no diagnóstico */}
+                    <div className="bg-emerald-50/60 border border-emerald-200 rounded-lg p-4 space-y-2">
+                      <span className="text-xs font-bold uppercase tracking-wider text-[#125435] block">
+                        Por que recomendamos para a sua loja
+                      </span>
+                      <ul className="space-y-1.5">
+                        {matchReasons.map((r) => (
+                          <li key={r} className="flex items-start gap-2 text-xs text-stone-800">
+                            <Check className="w-3.5 h-3.5 text-[#125435] shrink-0 mt-0.5" />
+                            <span>{r}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      {attentionPoint && (
+                        <div className="flex items-start gap-2 text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded px-2.5 py-1.5 mt-1">
+                          <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+                          <span>
+                            <strong>Ponto de atenção: </strong>
+                            {attentionPoint}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
                     {/* Três Blocos com Evidências Concretas */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2 border-t border-stone-100">
                       {/* Bloco 1: Por que combina com sua loja */}

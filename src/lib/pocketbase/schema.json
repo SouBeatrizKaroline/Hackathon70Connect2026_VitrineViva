@@ -1,0 +1,913 @@
+{
+  "generatedAt": "2026-11-14T15:20:20.795Z",
+  "collections": [
+    {
+      "name": "users",
+      "type": "auth",
+      "apiRules": {
+        "list": "id = @request.auth.id",
+        "view": "id = @request.auth.id",
+        "create": "",
+        "update": "id = @request.auth.id",
+        "delete": "id = @request.auth.id"
+      },
+      "fields": [
+        {
+          "name": "name",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "avatar",
+          "type": "file",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        },
+        {
+          "name": "role",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": ["lojista", "associacao", "startup", "admin"]
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX `idx_tokenKey__pb_users_auth_` ON `users` (`tokenKey`)",
+        "CREATE UNIQUE INDEX `idx_email__pb_users_auth_` ON `users` (`email`) WHERE `email` != ''"
+      ]
+    },
+    {
+      "name": "solutions",
+      "type": "base",
+      "apiRules": {
+        "list": "",
+        "view": "",
+        "create": "@request.auth.id != \"\"",
+        "update": "@request.auth.id != \"\"",
+        "delete": "@request.auth.id != \"\""
+      },
+      "fields": [
+        {
+          "name": "name",
+          "type": "text",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "tagline",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "price_monthly",
+          "type": "number",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "objectives",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": [
+            "vender_mais",
+            "responder_rapido",
+            "recuperar_pedidos",
+            "controlar_estoque",
+            "organizar_entregas"
+          ]
+        },
+        {
+          "name": "channels",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": ["whatsapp", "instagram", "loja_fisica", "site", "telefone"]
+        },
+        {
+          "name": "mandatory_supported",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": [
+            "funciona_celular",
+            "suporte_portugues",
+            "opera_offline",
+            "dispensa_troca_sistema"
+          ]
+        },
+        {
+          "name": "implementation_effort",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": ["baixo", "medio", "alto"]
+        },
+        {
+          "name": "trial_ease",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": ["imediato", "sete_dias", "agendado"]
+        },
+        {
+          "name": "keywords",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "why_matches",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "what_needed",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "what_testable",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "pilot_conditions",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "interactive_test",
+          "type": "bool",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "is_active",
+          "type": "bool",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": [
+        "CREATE INDEX idx_solutions_price ON solutions (price_monthly)",
+        "CREATE INDEX idx_solutions_effort ON solutions (implementation_effort)"
+      ]
+    },
+    {
+      "name": "diagnostics",
+      "type": "base",
+      "apiRules": {
+        "list": "",
+        "view": "",
+        "create": "",
+        "update": "",
+        "delete": ""
+      },
+      "fields": [
+        {
+          "name": "owner",
+          "type": "relation",
+          "required": false,
+          "system": false,
+          "collectionRef": "users"
+        },
+        {
+          "name": "goal",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": [
+            "vender_mais",
+            "responder_rapido",
+            "recuperar_pedidos",
+            "controlar_estoque",
+            "organizar_entregas"
+          ]
+        },
+        {
+          "name": "free_text",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "keywords",
+          "type": "json",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "segment",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": [
+            "Vestuario",
+            "Alimentacao",
+            "Automecanica",
+            "Servicos",
+            "Farmacia",
+            "Outro"
+          ]
+        },
+        {
+          "name": "municipality",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "channels",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": ["whatsapp", "instagram", "loja_fisica", "site", "telefone"]
+        },
+        {
+          "name": "team_size",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": ["So eu", "2-4", "5-10", "10+"]
+        },
+        {
+          "name": "budget_max",
+          "type": "number",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "main_channel",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": ["whatsapp", "instagram", "loja_fisica", "site", "telefone"]
+        },
+        {
+          "name": "implementation_time",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": ["Mesmo dia", "1 semana", "1 mes"]
+        },
+        {
+          "name": "mandatory_requirements",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": [
+            "funciona_celular",
+            "suporte_portugues",
+            "opera_offline",
+            "dispensa_troca_sistema"
+          ]
+        },
+        {
+          "name": "status",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": [
+            "rascunho",
+            "diagnosticado",
+            "com_recomendacao",
+            "em_teste",
+            "piloto_criado",
+            "sem_cobertura",
+            "encaminhada"
+          ]
+        },
+        {
+          "name": "step_current",
+          "type": "number",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "is_demo",
+          "type": "bool",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": [
+        "CREATE INDEX idx_diag_status ON diagnostics (status)",
+        "CREATE INDEX idx_diag_city ON diagnostics (municipality)"
+      ]
+    },
+    {
+      "name": "tests",
+      "type": "base",
+      "apiRules": {
+        "list": "",
+        "view": "",
+        "create": "",
+        "update": "",
+        "delete": ""
+      },
+      "fields": [
+        {
+          "name": "diagnostic",
+          "type": "relation",
+          "required": false,
+          "system": false,
+          "collectionRef": "diagnostics"
+        },
+        {
+          "name": "solution",
+          "type": "relation",
+          "required": false,
+          "system": false,
+          "collectionRef": "solutions"
+        },
+        {
+          "name": "orders",
+          "type": "json",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "summary",
+          "type": "json",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "completed",
+          "type": "bool",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "is_demo",
+          "type": "bool",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": []
+    },
+    {
+      "name": "pilots",
+      "type": "base",
+      "apiRules": {
+        "list": "",
+        "view": "",
+        "create": "",
+        "update": "",
+        "delete": ""
+      },
+      "fields": [
+        {
+          "name": "test",
+          "type": "relation",
+          "required": false,
+          "system": false,
+          "collectionRef": "tests"
+        },
+        {
+          "name": "solution",
+          "type": "relation",
+          "required": false,
+          "system": false,
+          "collectionRef": "solutions"
+        },
+        {
+          "name": "diagnostic",
+          "type": "relation",
+          "required": false,
+          "system": false,
+          "collectionRef": "diagnostics"
+        },
+        {
+          "name": "goal",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "initial_value",
+          "type": "number",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "final_value",
+          "type": "number",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "difference",
+          "type": "number",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "decision",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": ["pendente", "continuar", "ajustar", "encerrar"]
+        },
+        {
+          "name": "decision_reason",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "is_simulated",
+          "type": "bool",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "is_demo",
+          "type": "bool",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": []
+    },
+    {
+      "name": "demands",
+      "type": "base",
+      "apiRules": {
+        "list": "",
+        "view": "",
+        "create": "",
+        "update": "",
+        "delete": ""
+      },
+      "fields": [
+        {
+          "name": "diagnostic",
+          "type": "relation",
+          "required": false,
+          "system": false,
+          "collectionRef": "diagnostics"
+        },
+        {
+          "name": "store_name",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "municipality",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "segment",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": [
+            "Vestuario",
+            "Alimentacao",
+            "Automecanica",
+            "Servicos",
+            "Farmacia",
+            "Outro"
+          ]
+        },
+        {
+          "name": "problem",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "impact",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "channel",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "requirements",
+          "type": "json",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "budget_range",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "restrictions",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "desired_result",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "consent",
+          "type": "bool",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "status",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": [
+            "recebida",
+            "agrupada",
+            "publicada",
+            "proposta_recebida",
+            "piloto_aprovado",
+            "encerrada"
+          ]
+        },
+        {
+          "name": "group_key",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "is_demo",
+          "type": "bool",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": [
+        "CREATE INDEX idx_demands_status ON demands (status)",
+        "CREATE INDEX idx_demands_city ON demands (municipality)",
+        "CREATE INDEX idx_demands_group ON demands (group_key)"
+      ]
+    },
+    {
+      "name": "challenges",
+      "type": "base",
+      "apiRules": {
+        "list": "",
+        "view": "",
+        "create": "",
+        "update": "",
+        "delete": ""
+      },
+      "fields": [
+        {
+          "name": "title",
+          "type": "text",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "municipality_scope",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "segment",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "common_problem",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "common_requirements",
+          "type": "json",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "cluster_reason",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "demands_count",
+          "type": "number",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "interested_startups",
+          "type": "number",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "status",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": ["aberto", "em_analise", "piloto_aprovado", "encerrado"]
+        },
+        {
+          "name": "is_demo",
+          "type": "bool",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": ["CREATE INDEX idx_challenges_status ON challenges (status)"]
+    },
+    {
+      "name": "proposals",
+      "type": "base",
+      "apiRules": {
+        "list": "",
+        "view": "",
+        "create": "",
+        "update": "",
+        "delete": ""
+      },
+      "fields": [
+        {
+          "name": "challenge",
+          "type": "relation",
+          "required": false,
+          "system": false,
+          "collectionRef": "challenges"
+        },
+        {
+          "name": "startup_name",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "already_solves",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "to_develop",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "estimated_time",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "proposed_cost",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "pilot_evaluation",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "status",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": ["enviada", "aprovada", "recusada"]
+        },
+        {
+          "name": "decision_note",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "is_demo",
+          "type": "bool",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": ["CREATE INDEX idx_proposals_status ON proposals (status)"]
+    },
+    {
+      "name": "app_configs",
+      "type": "base",
+      "apiRules": {
+        "list": "",
+        "view": "",
+        "create": "",
+        "update": "",
+        "delete": ""
+      },
+      "fields": [
+        {
+          "name": "key",
+          "type": "text",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "association_name",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "municipality",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "profile_type",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": ["equipe_pequena", "equipe_inovacao"]
+        },
+        {
+          "name": "visual_palette",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "priority_segments",
+          "type": "json",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "active_solution_ids",
+          "type": "json",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": ["CREATE UNIQUE INDEX idx_app_configs_key ON app_configs (key)"]
+    }
+  ]
+}
