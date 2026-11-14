@@ -13,7 +13,7 @@ const ACOES = [
   'Validar demandas',
   'Convidar fornecedores',
   'Criar desafio coletivo',
-  'Selecionar lojas para piloto',
+  'Selecionar negócios para piloto',
 ]
 const MINIMO_OPORTUNIDADE = 5
 
@@ -126,7 +126,7 @@ export default function RadarPage() {
             <h2 className="font-serif-title text-xl text-stone-900">{g.temaRotulo}</h2>
             <p className="text-sm text-stone-700">
               {g.segmento} · {g.municipio}. Volume suficiente para avaliar uma negociação conjunta
-              ou um piloto com várias lojas.
+              ou um piloto com vários negócios.
             </p>
             {ehAssociacao ? (
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
@@ -196,7 +196,7 @@ export default function RadarPage() {
         {ocultos > 0 && (
           <p className="text-xs text-stone-500">
             {ocultos} grupo(s) com menos de {MINIMO_RADAR} demandas não são exibidos, para não
-            expor lojas individualmente.
+            expor negócios individualmente.
           </p>
         )}
       </section>

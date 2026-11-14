@@ -308,7 +308,7 @@ export default function RelatarPage() {
             value={digitado}
             onChange={(e) => setDigitado(e.target.value)}
             placeholder="Ex.: Vendo pelo Instagram e pelo WhatsApp, mas o estoque nunca bate…"
-            aria-label="Escreva o que está acontecendo na sua loja"
+            aria-label="Escreva o que está acontecendo no seu negócio"
             className="bg-stone-50 text-base"
           />
           <div className="flex flex-wrap items-center gap-2">

@@ -243,7 +243,7 @@ export default function CompararPage() {
               />
               <span>
                 <strong>Autorizo</strong> contar esta necessidade no Radar da {ASSOCIACAO_DEMO}, de
-                forma agregada, sem o nome da loja nem o texto do relato.{' '}
+                forma agregada, sem o nome do negócio nem o texto do relato.{' '}
                 <span className="text-stone-500">(opcional)</span>
               </span>
             </label>

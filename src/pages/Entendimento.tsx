@@ -47,7 +47,7 @@ export default function EntendimentoPage() {
       <Tela>
         <div className="space-y-4 py-10 text-center">
           <h1 className="font-serif-title text-2xl text-stone-900">Ainda não há um relato</h1>
-          <p className="text-sm text-stone-600">Comece contando o que acontece na sua loja.</p>
+          <p className="text-sm text-stone-600">Comece contando o que acontece no seu negócio.</p>
           <Button asChild className="h-12 bg-[#125435] text-white hover:bg-emerald-900">
             <Link to="/">Voltar ao início</Link>
           </Button>
@@ -192,7 +192,7 @@ export default function EntendimentoPage() {
             )}
 
             <p className="border-t border-stone-200 pt-3 text-xs text-stone-500">
-              Loja da demonstração: {NEGOCIO_DEMO.nome} · {NEGOCIO_DEMO.segmento} ·{' '}
+              Negócio da demonstração: {NEGOCIO_DEMO.nome} · {NEGOCIO_DEMO.segmento} ·{' '}
               {NEGOCIO_DEMO.municipio} (dados fictícios).
             </p>
           </section>

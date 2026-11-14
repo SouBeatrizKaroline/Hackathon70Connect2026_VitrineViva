@@ -326,7 +326,7 @@ export default function AssociacaoPage() {
           <div className="font-serif-title text-3xl font-bold text-[#125435]">
             {demands.length + 5}
           </div>
-          <span className="text-[11px] text-stone-400">Lojas diagnosticadas</span>
+            <span className="text-[11px] text-stone-400">Negócios diagnosticados</span>
         </Card>
 
         <Card className="bg-white border border-stone-200 p-4 rounded-xl space-y-1">
@@ -362,7 +362,7 @@ export default function AssociacaoPage() {
                 Necessidades recorrentes por região (dados anonimizados)
               </h2>
             </div>
-            <span className="text-xs text-blue-800 font-medium">Sem identificação de lojas</span>
+            <span className="text-xs text-blue-800 font-medium">Sem identificação de negócios</span>
           </div>
 
           <p className="text-xs text-blue-900 leading-relaxed">
@@ -374,7 +374,7 @@ export default function AssociacaoPage() {
             <div className="bg-white p-3 rounded-lg border border-blue-200 text-xs space-y-1">
               <span className="font-bold text-stone-900 block">Operar sem internet / offline</span>
               <span className="text-blue-800 font-semibold">
-                3 lojas · Região de Tatuí / Ourinhos
+                3 negócios · Região de Tatuí / Ourinhos
               </span>
               <p className="text-[11px] text-stone-500">Dificuldade em manter estoque síncrono</p>
             </div>
@@ -382,7 +382,7 @@ export default function AssociacaoPage() {
             <div className="bg-white p-3 rounded-lg border border-blue-200 text-xs space-y-1">
               <span className="font-bold text-stone-900 block">Perda de pedidos no WhatsApp</span>
               <span className="text-blue-800 font-semibold">
-                5 lojas · Região de Marília / Bauru
+                5 negócios · Região de Marília / Bauru
               </span>
               <p className="text-[11px] text-stone-500">Demora no retorno por falta de equipe</p>
             </div>
@@ -391,7 +391,7 @@ export default function AssociacaoPage() {
               <span className="font-bold text-stone-900 block">
                 Roteirização de entrega própria
               </span>
-              <span className="text-blue-800 font-semibold">2 lojas · Sorocaba e Região</span>
+              <span className="text-blue-800 font-semibold">2 negócios · Sorocaba e Região</span>
               <p className="text-[11px] text-stone-500">Custo alto de apps terceiros de delivery</p>
             </div>
           </div>
@@ -692,7 +692,7 @@ export default function AssociacaoPage() {
               Publicar Desafio Coletivo
             </DialogTitle>
             <DialogDescription className="text-xs text-stone-600">
-              Reúne lojas com a mesma dor para viabilizar propostas conjuntas de startups.
+              Reúne negócios com a mesma dor para viabilizar propostas conjuntas de startups.
             </DialogDescription>
           </DialogHeader>
 

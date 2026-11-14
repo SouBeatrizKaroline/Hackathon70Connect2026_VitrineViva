@@ -94,7 +94,7 @@ export default function DesafioDetalhePage() {
       <Card className="bg-white border-2 border-stone-200 p-6 rounded-xl space-y-4">
         <div className="flex items-center justify-between">
           <Badge className="bg-emerald-100 text-[#125435]">
-            {challenge.demands_count || 3} lojas reunidas
+            {challenge.demands_count || 3} negócios reunidos
           </Badge>
           <span className="text-xs text-stone-500">{challenge.municipality_scope}</span>
         </div>

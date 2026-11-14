@@ -54,11 +54,11 @@ export default function CriarContaPage() {
       <Card className="bg-white border border-stone-200 p-6 rounded-xl space-y-4">
         <form onSubmit={handleSignup} className="space-y-3 text-xs sm:text-sm">
           <div className="space-y-1">
-            <label className="font-semibold text-stone-700">Seu nome ou nome da loja:</label>
+            <label className="font-semibold text-stone-700">Seu nome ou nome do negócio:</label>
             <Input
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Ex.: Loja da Ana"
+              placeholder="Ex.: Negócio da Ana"
               className="text-xs"
               required
             />

@@ -43,11 +43,12 @@ export default function Index() {
   return (
     <div className="mx-auto w-full max-w-xl space-y-6 pb-12 animate-fade-in">
       <section className="space-y-3 pt-2">
+        <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#125435]">Comece por aqui</p>
         <h1 className="font-serif-title text-3xl leading-tight text-stone-900 sm:text-4xl">
-          O que você gostaria de melhorar na sua loja?
+          O que você gostaria de melhorar no seu negócio?
         </h1>
         <p className="text-base leading-relaxed text-stone-600">
-          Pode falar do seu jeito. Não precisa saber o nome da tecnologia.
+          Conte o que está acontecendo do seu jeito. Não precisa saber o nome da tecnologia.
         </p>
       </section>
 
@@ -75,7 +76,7 @@ export default function Index() {
 
       <section className="space-y-2">
         <h2 className="text-xs font-bold uppercase tracking-wider text-stone-500">
-          Ou comece por um assunto
+          Prefere começar por um assunto?
         </h2>
         <div className="grid grid-cols-2 gap-2">
           {ATALHOS.map((a) => (
