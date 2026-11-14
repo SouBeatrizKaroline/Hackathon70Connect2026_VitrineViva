@@ -2,7 +2,7 @@
 
 Protótipo do Hackathon 7.0 Connect, desafio FACESP.
 
-A vivIA transforma a necessidade de um pequeno negócio em uma demanda clara e a conecta a fornecedores de tecnologia, com apoio da associação comercial. O lojista explica o que está acontecendo, por áudio ou texto, sem precisar saber o nome da tecnologia. A plataforma organiza o relato, confirma o entendimento, mostra caminhos, permite comparar propostas e acompanha o pedido até o piloto.
+A vivIA transforma a necessidade de um pequeno negócio em uma demanda clara e a conecta a fornecedores de tecnologia, com apoio da associação comercial. A pessoa responsável pelo negócio explica o que está acontecendo, por áudio ou texto, sem precisar saber o nome da tecnologia. A plataforma organiza o relato, confirma o entendimento, mostra caminhos, permite comparar propostas e acompanha o pedido até o piloto.
 
 > **Demonstração.** Fornecedores, preços, propostas, retornos e contagens do Radar são fictícios e estão rotulados no app. Não há integração com WhatsApp, catálogo real de parceiros nem resultado de piloto medido.
 
@@ -19,6 +19,13 @@ A vivIA transforma a necessidade de um pequeno negócio em uma demanda clara e a
 | Radar | `/radar` | Visão agregada da associação por tema, segmento e município, sem relato individual |
 
 As telas do protótipo anterior (diagnóstico em formulário, teste interativo, painel completo da associação e área de startups) continuam disponíveis em "Apresentar à banca", na página inicial.
+
+## Diretrizes de UX/UI
+
+- A linguagem usa **negócio** quando se refere à operação da pessoa usuária. **Loja física**, **loja virtual** e **balcão** continuam sendo usados apenas quando descrevem um canal específico.
+- A jornada principal é apresentada em uma ação por vez: contar a necessidade, revisar o resumo e escolher os próximos caminhos.
+- Os textos de apoio explicam o que acontece antes da ação, evitam jargões e deixam claro quando uma informação é opcional.
+- A pessoa usuária revisa o relato e autoriza o compartilhamento antes de qualquer encaminhamento.
 
 ## Como a demo funciona
 

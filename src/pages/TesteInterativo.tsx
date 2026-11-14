@@ -44,7 +44,7 @@ const INITIAL_ORDERS: FictionalOrder[] = [
     timeAgo: 'há 3h40',
     status: 'aguardando_retorno',
     lastAction: 'Cliente perguntou: "Tem no azul marinho?"',
-    notes: 'Aguardando retorno da loja',
+    notes: 'Aguardando retorno do negócio',
     messages: [
       {
         sender: 'cliente',
@@ -62,7 +62,7 @@ const INITIAL_ORDERS: FictionalOrder[] = [
     timeAgo: 'há 2h15',
     status: 'aguardando_retorno',
     lastAction: 'Orçamento enviado, sem confirmação',
-    notes: 'Aguardando retorno da loja',
+    notes: 'Aguardando retorno do negócio',
     messages: [
       {
         sender: 'cliente',
@@ -79,7 +79,7 @@ const INITIAL_ORDERS: FictionalOrder[] = [
     timeAgo: 'há 1h30',
     status: 'aguardando_retorno',
     lastAction: 'Cliente aguardando confirmação de tamanho',
-    notes: 'Aguardando retorno da loja',
+    notes: 'Aguardando retorno do negócio',
     messages: [{ sender: 'cliente', text: 'A forma da calça é pequena ou normal?', time: '13:20' }],
   },
   {
@@ -203,7 +203,7 @@ export default function TesteInterativoPage() {
     }
     toast({
       title: 'Retorno marcado!',
-      description: 'Tempo médio de primeira resposta da loja atualizado.',
+      description: 'Tempo médio de primeira resposta do negócio atualizado.',
     })
   }
 
@@ -439,7 +439,7 @@ export default function TesteInterativoPage() {
                 Resumo em tempo real
               </h2>
               <p className="text-xs text-stone-600">
-                Veja o impacto simulado na rotina da sua loja.
+                Veja o impacto simulado na rotina do seu negócio.
               </p>
             </div>
 

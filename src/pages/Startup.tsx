@@ -201,7 +201,7 @@ export default function StartupPage() {
               >
                 <div className="flex items-center justify-between">
                   <Badge className="bg-emerald-100 text-[#125435] border-0 text-xs">
-                    {ch.demands_count || 3} lojas reunidas
+            {ch.demands_count || 3} negócios reunidos
                   </Badge>
                   <span className="text-xs text-stone-500">{ch.municipality_scope}</span>
                 </div>

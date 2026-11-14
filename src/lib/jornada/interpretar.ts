@@ -124,7 +124,7 @@ export const TEMAS: Record<TemaId, DefinicaoTema> = {
     tipoSolucao: 'Organização do atendimento por mensagens, com lembretes e respostas prontas',
     resultado: 'Menos clientes sem resposta e mais pedidos retomados',
     pergunta: {
-      texto: 'Quantas pessoas respondem as mensagens da loja?',
+      texto: 'Quantas pessoas respondem as mensagens do negócio?',
       opcoes: [
         { id: 'uma', rotulo: 'Só eu' },
         { id: 'duas_tres', rotulo: '2 ou 3' },

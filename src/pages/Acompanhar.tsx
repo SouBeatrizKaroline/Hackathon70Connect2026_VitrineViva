@@ -343,7 +343,7 @@ export default function AcompanharPage() {
         <div className="space-y-4 rounded-2xl border-2 border-dashed border-stone-300 p-6 text-center">
           <p className="text-sm text-stone-600">Você ainda não tem solicitações neste aparelho.</p>
           <Button asChild className="h-12 bg-[#125435] text-white hover:bg-emerald-900">
-            <Link to="/">Contar o que acontece na loja</Link>
+            <Link to="/">Contar o que acontece no negócio</Link>
           </Button>
         </div>
       ) : (

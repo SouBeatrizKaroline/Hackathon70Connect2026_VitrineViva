@@ -108,7 +108,7 @@ export default function SolucaoDetalhePage() {
             <div className="p-4 bg-[#FAF7F0] rounded-xl border border-stone-200 space-y-2">
               <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#125435]">
                 <Sparkles className="w-4 h-4 text-amber-500" />
-                Por que combina com sua loja
+                Por que combina com seu negócio
               </div>
               <p className="text-xs text-stone-700 leading-relaxed">{solution.why_matches}</p>
             </div>

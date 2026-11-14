@@ -38,7 +38,7 @@ const REQUIREMENT_LABELS: Record<MandatoryRequirementKey, string> = {
   funciona_celular: 'funcionar no celular',
   suporte_portugues: 'ter suporte em português',
   opera_offline: 'operar mesmo quando a internet cai',
-  dispensa_troca_sistema: 'não exigir a troca do sistema atual da loja',
+  dispensa_troca_sistema: 'não exigir a troca do sistema atual do negócio',
 }
 
 function countLabel(n: number): string {

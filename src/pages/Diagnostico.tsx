@@ -92,7 +92,7 @@ export default function DiagnosticoPage() {
     'pedidos',
   ])
 
-  // Step 2: Como sua loja funciona?
+  // Step 2: Como seu negócio funciona?
   const [segment, setSegment] = useState<
     'Vestuario' | 'Alimentacao' | 'Automecanica' | 'Servicos' | 'Farmacia' | 'Outro'
   >('Vestuario')
@@ -235,7 +235,7 @@ export default function DiagnosticoPage() {
       return
     }
     if (!municipality.trim()) {
-      setMissingFieldWarning('Falta informar o município da sua loja (Etapa 2).')
+      setMissingFieldWarning('Falta informar o município do seu negócio (Etapa 2).')
       setStep(2)
       return
     }
@@ -272,7 +272,7 @@ export default function DiagnosticoPage() {
 
       toast({
         title: 'Diagnóstico salvo e sincronizado',
-        description: 'Buscando recomendações transparentes para a sua loja...',
+        description: 'Buscando recomendações transparentes para o seu negócio...',
       })
 
       navigate('/recomendacoes')
@@ -293,20 +293,26 @@ export default function DiagnosticoPage() {
       <div className="space-y-3">
         <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#125435]">
           <Compass className="w-4 h-4 text-amber-600" />
-          <span>Diagnóstico da loja em 3 etapas</span>
+          <span>Diagnóstico do negócio em 3 etapas</span>
         </div>
         <h1 className="font-serif-title text-3xl sm:text-4xl text-stone-900 font-normal">
           Entenda o que você precisa antes de gastar
         </h1>
         <p className="text-stone-600 text-sm sm:text-base">
-          Sem termos técnicos complicados. Suas respostas definem quais ferramentas funcionam no seu
-          dia a dia.
+          Sem termos técnicos complicados. Leva cerca de 2 minutos e ajuda a encontrar opções que
+          façam sentido para o seu dia a dia.
+        </p>
+
+        <p className="text-xs font-medium text-stone-500" aria-live="polite">
+          Etapa {step} de 3
         </p>
 
         {/* Stepper horizontal */}
         <div className="pt-4 grid grid-cols-3 gap-2 sm:gap-4">
           <button
+            type="button"
             onClick={() => goToStep(1)}
+            aria-current={step === 1 ? 'step' : undefined}
             className={`text-left p-3 rounded-lg border transition-all ${
               step === 1
                 ? 'border-[#125435] bg-emerald-50 text-[#125435] shadow-xs'
@@ -318,7 +324,9 @@ export default function DiagnosticoPage() {
           </button>
 
           <button
+            type="button"
             onClick={() => goToStep(2)}
+            aria-current={step === 2 ? 'step' : undefined}
             className={`text-left p-3 rounded-lg border transition-all ${
               step === 2
                 ? 'border-[#125435] bg-emerald-50 text-[#125435] shadow-xs'
@@ -330,7 +338,9 @@ export default function DiagnosticoPage() {
           </button>
 
           <button
+            type="button"
             onClick={() => goToStep(3)}
+            aria-current={step === 3 ? 'step' : undefined}
             className={`text-left p-3 rounded-lg border transition-all ${
               step === 3
                 ? 'border-[#125435] bg-emerald-50 text-[#125435] shadow-xs'
@@ -359,7 +369,7 @@ export default function DiagnosticoPage() {
         <Card className="bg-white border-2 border-stone-200/90 shadow-sm rounded-xl">
           <CardHeader className="space-y-1">
             <CardTitle className="font-serif-title text-2xl text-stone-900 font-normal">
-              1. O que você quer melhorar na sua loja?
+              1. O que você quer melhorar no seu negócio?
             </CardTitle>
             <CardDescription className="text-stone-600 text-sm">
               Marque os desafios mais urgentes e conte em suas palavras o que está travando o
@@ -474,7 +484,7 @@ export default function DiagnosticoPage() {
         <Card className="bg-white border-2 border-stone-200/90 shadow-sm rounded-xl">
           <CardHeader className="space-y-1">
             <CardTitle className="font-serif-title text-2xl text-stone-900 font-normal">
-              2. Como sua loja funciona?
+              2. Como seu negócio funciona?
             </CardTitle>
             <CardDescription className="text-stone-600 text-sm">
               Tamanho, canais que usa e quanto você pode investir por mês sem comprometer o caixa.
@@ -679,11 +689,11 @@ export default function DiagnosticoPage() {
           <Card className="bg-white border-2 border-stone-200/90 shadow-sm rounded-xl">
             <CardHeader className="space-y-1">
               <CardTitle className="font-serif-title text-2xl text-stone-900 font-normal">
-                3. O que é indispensável para a sua loja?
+                3. O que é indispensável para o seu negócio?
               </CardTitle>
               <CardDescription className="text-stone-600 text-sm">
-                Marque apenas o que não pode faltar de jeito nenhum. Se a ferramenta não cumprir,
-                será excluída.
+                Marque apenas o que não pode faltar. Assim, descartamos opções que não combinam
+                com a sua realidade.
               </CardDescription>
             </CardHeader>
 

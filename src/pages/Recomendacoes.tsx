@@ -191,7 +191,7 @@ export default function RecomendacoesPage() {
     } else if (sol.implementation_effort === 'baixo') {
       specificReasons.push('Implantação simples, sem trocar o sistema que você já usa.')
     } else {
-      specificReasons.push('Compatível com o perfil geral da sua loja no diagnóstico.')
+      specificReasons.push('Compatível com o perfil geral do seu negócio no diagnóstico.')
     }
 
     // Ponto de atenção quando houver
@@ -311,7 +311,7 @@ export default function RecomendacoesPage() {
             <span>Recomendações da vivIA</span>
           </div>
           <h1 className="font-serif-title text-3xl sm:text-4xl text-stone-900 font-normal mt-1">
-            Soluções compatíveis com a sua loja
+            Soluções compatíveis com o seu negócio
           </h1>
           <p className="text-stone-600 text-sm">
             {diagnostic?.municipality
@@ -532,7 +532,7 @@ export default function RecomendacoesPage() {
                     {/* DOIS motivos específicos + ponto de atenção, baseados no diagnóstico */}
                     <div className="bg-emerald-50/60 border border-emerald-200 rounded-lg p-4 space-y-2">
                       <span className="text-xs font-bold uppercase tracking-wider text-[#125435] block">
-                        Por que recomendamos para a sua loja
+                        Por que recomendamos para o seu negócio
                       </span>
                       <ul className="space-y-1.5">
                         {matchReasons.map((r) => (
@@ -555,10 +555,10 @@ export default function RecomendacoesPage() {
 
                     {/* Três Blocos com Evidências Concretas */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2 border-t border-stone-100">
-                      {/* Bloco 1: Por que combina com sua loja */}
+                      {/* Bloco 1: Por que combina com seu negócio */}
                       <div className="bg-[#FAF7F0] p-3.5 rounded-lg space-y-1">
                         <span className="text-xs font-bold uppercase tracking-wider text-[#125435] block">
-                          Por que combina com sua loja
+                          Por que combina com seu negócio
                         </span>
                         <p className="text-xs text-stone-700 leading-relaxed">{item.why_matches}</p>
                       </div>
