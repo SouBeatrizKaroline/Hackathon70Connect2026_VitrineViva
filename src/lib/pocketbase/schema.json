@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-14T15:29:00.411Z",
+  "generatedAt": "2026-11-14T15:37:13.121Z",
   "collections": [
     {
       "name": "users",
@@ -645,6 +645,12 @@
           "required": false,
           "system": false,
           "autodateTriggers": ["onCreate", "onUpdate"]
+        },
+        {
+          "name": "code",
+          "type": "text",
+          "required": false,
+          "system": false
         }
       ],
       "indexes": [
@@ -908,6 +914,19 @@
         }
       ],
       "indexes": ["CREATE UNIQUE INDEX idx_app_configs_key ON app_configs (key)"]
+    },
+    {
+      "name": "demand_events",
+      "type": "base",
+      "apiRules": {
+        "list": "",
+        "view": "",
+        "create": "@request.auth.id != ''",
+        "update": "@request.auth.id != ''",
+        "delete": null
+      },
+      "fields": [],
+      "indexes": []
     }
   ]
 }
