@@ -143,6 +143,7 @@ export interface DemandRecord {
   status: DemandStatus
   group_key?: string
   is_demo?: boolean
+  code?: string
   created?: string
   updated?: string
 }
@@ -176,6 +177,32 @@ export interface ProposalRecord {
   status: 'enviada' | 'aprovada' | 'recusada'
   decision_note?: string
   is_demo?: boolean
+  created?: string
+  updated?: string
+}
+
+export type DemandEventType =
+  | 'demand_enviada'
+  | 'demand_recebida'
+  | 'demand_agrupada'
+  | 'desafio_publicado'
+  | 'proposta_enviada'
+  | 'proposta_aprovada'
+  | 'piloto_iniciado'
+  | 'piloto_aprovado'
+  | 'piloto_concluido'
+
+export type DemandEventActor = 'lojista' | 'associacao' | 'startup' | 'sistema'
+
+export interface DemandEventRecord {
+  id?: string
+  demand: string | { id: string }
+  event_type: DemandEventType
+  actor: DemandEventActor
+  actor_label: string
+  title: string
+  description: string
+  status_after?: DemandStatus
   created?: string
   updated?: string
 }

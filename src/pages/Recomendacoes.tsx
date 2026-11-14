@@ -38,7 +38,7 @@ import {
   listSolutions,
   getLatestDiagnostic,
   saveDiagnostic,
-  createDemand,
+  createDemandWithHistory,
 } from '@/services/vitrineService'
 import type { SolutionItem, DiagnosticRecord, ChannelKey, ObjectiveKey } from '@/types/vitrine'
 
@@ -261,7 +261,7 @@ export default function RecomendacoesPage() {
 
     setIsSubmittingDemand(true)
     try {
-      await createDemand({
+      await createDemandWithHistory({
         diagnostic: diagnostic?.id,
         store_name: `Comércio de ${diagnostic?.municipality || 'Marília'}`,
         municipality: diagnostic?.municipality || 'Marília',
@@ -274,7 +274,6 @@ export default function RecomendacoesPage() {
         restrictions: demandRestrictions,
         desired_result: demandDesiredResult,
         consent: true,
-        status: 'recebida',
       })
 
       if (diagnostic?.id) {

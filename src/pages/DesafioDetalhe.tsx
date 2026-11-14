@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 import { toast } from '@/hooks/use-toast'
 import { getChallengeById, createProposal } from '@/services/vitrineService'
+import { recordProposalEventsForChallenge } from '@/services/demandHistoryService'
 import type { ChallengeRecord } from '@/types/vitrine'
 
 export default function DesafioDetalhePage() {
@@ -48,6 +49,10 @@ export default function DesafioDetalhePage() {
         pilot_evaluation: pilotEvaluation,
         status: 'enviada',
       })
+
+      // Registra o evento no histórico das demandas agrupadas neste desafio
+      await recordProposalEventsForChallenge(id, 'ConectaVarejo Labs (Startup demo)')
+
       toast({
         title: 'Proposta registrada!',
         description: 'Enviada para a Associação Comercial responsável.',

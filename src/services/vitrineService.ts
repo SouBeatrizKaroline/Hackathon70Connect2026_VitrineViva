@@ -117,18 +117,11 @@ export async function listPilots(): Promise<PilotRecord[]> {
 }
 
 // 5. Demandas (Radar)
-export async function createDemand(data: Partial<DemandRecord>): Promise<DemandRecord> {
-  try {
-    return await pb.collection('demands').create<DemandRecord>({
-      ...data,
-      status: 'recebida',
-      is_demo: true,
-    })
-  } catch (err) {
-    console.error('Erro ao criar demanda:', err)
-    throw err
-  }
-}
+// Reexporta a versão com histórico (código DEM-XXXX + evento inicial gravado).
+export {
+  createDemandWithHistory as createDemand,
+  createDemandWithHistory,
+} from './demandHistoryService'
 
 export async function listDemands(filter?: string): Promise<DemandRecord[]> {
   try {

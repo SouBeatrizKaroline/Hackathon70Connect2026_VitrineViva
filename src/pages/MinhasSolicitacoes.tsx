@@ -18,6 +18,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Badge } from '@/components/ui/badge'
 import { listDemands, listPilots, getLatestDiagnostic } from '@/services/vitrineService'
 import type { DemandRecord, PilotRecord, DiagnosticRecord, DemandStatus } from '@/types/vitrine'
+import { DemandHistoryTimeline } from '@/components/DemandHistoryTimeline'
 import pb from '@/lib/pocketbase/client'
 
 const STEPPER_STAGES: { key: DemandStatus; label: string; actor: string }[] = [
@@ -33,6 +34,7 @@ export default function MinhasSolicitacoesPage() {
   const [demands, setDemands] = useState<DemandRecord[]>([])
   const [pilots, setPilots] = useState<PilotRecord[]>([])
   const [loading, setLoading] = useState(true)
+  const [refreshKey, setRefreshKey] = useState(0)
 
   async function loadData() {
     setLoading(true)
@@ -62,10 +64,14 @@ export default function MinhasSolicitacoesPage() {
       console.log('Realtime SSE pilots update:', e.action)
       loadData()
     })
+    const unsubEventsPromise = pb.collection('demand_events').subscribe('*', () => {
+      setRefreshKey((k) => k + 1)
+    })
 
     return () => {
       unsubDemandsPromise.then((u) => u())
       unsubPilotsPromise.then((u) => u())
+      unsubEventsPromise.then((u) => u())
     }
   }, [])
 
@@ -132,7 +138,13 @@ export default function MinhasSolicitacoesPage() {
               >
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                   <div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <Badge
+                        variant="outline"
+                        className="font-mono text-xs border-[#125435]/40 text-[#125435] bg-emerald-50"
+                      >
+                        {dmd.code || 'Código pendente'}
+                      </Badge>
                       <Badge className="bg-emerald-100 text-[#125435] border-0 text-xs">
                         {dmd.segment} · {dmd.municipality}
                       </Badge>
@@ -147,12 +159,15 @@ export default function MinhasSolicitacoesPage() {
                     </p>
                   </div>
 
-                  <Badge
-                    variant="outline"
-                    className="self-start sm:self-auto capitalize text-xs bg-stone-50 text-stone-800 border-stone-300"
-                  >
-                    Status atual: {dmd.status.replace('_', ' ')}
-                  </Badge>
+                  <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+                    <Badge
+                      variant="outline"
+                      className="capitalize text-xs bg-stone-50 text-stone-800 border-stone-300"
+                    >
+                      Status atual: {dmd.status.replace('_', ' ')}
+                    </Badge>
+                    <DemandHistoryTimeline demand={dmd} refreshKey={refreshKey} />
+                  </div>
                 </div>
 
                 {/* Stepper Horizontal com os 5 estágios obrigatórios */}

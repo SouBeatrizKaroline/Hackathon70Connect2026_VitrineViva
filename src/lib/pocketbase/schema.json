@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-14T15:37:13.121Z",
+  "generatedAt": "2026-11-14T15:41:17.586Z",
   "collections": [
     {
       "name": "users",
@@ -925,8 +925,89 @@
         "update": "@request.auth.id != ''",
         "delete": null
       },
-      "fields": [],
-      "indexes": []
+      "fields": [
+        {
+          "name": "demand",
+          "type": "relation",
+          "required": true,
+          "system": false,
+          "collectionRef": "demands"
+        },
+        {
+          "name": "event_type",
+          "type": "select",
+          "required": true,
+          "system": false,
+          "selectValues": [
+            "demand_enviada",
+            "demand_recebida",
+            "demand_agrupada",
+            "desafio_publicado",
+            "proposta_enviada",
+            "proposta_aprovada",
+            "piloto_iniciado",
+            "piloto_aprovado",
+            "piloto_concluido"
+          ]
+        },
+        {
+          "name": "actor",
+          "type": "select",
+          "required": true,
+          "system": false,
+          "selectValues": ["lojista", "associacao", "startup", "sistema"]
+        },
+        {
+          "name": "actor_label",
+          "type": "text",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "status_after",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": [
+            "recebida",
+            "agrupada",
+            "publicada",
+            "proposta_recebida",
+            "piloto_aprovado",
+            "encerrada"
+          ]
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": [
+        "CREATE INDEX `idx_demand_events_demand` ON `demand_events` (demand)",
+        "CREATE INDEX `idx_demand_events_created` ON `demand_events` (created)"
+      ]
     }
   ]
 }

@@ -41,6 +41,8 @@ import {
   listPilots,
 } from '@/services/vitrineService'
 import type { DemandRecord, ChallengeRecord, ProposalRecord, PilotRecord } from '@/types/vitrine'
+import { recordDemandEvent } from '@/services/demandHistoryService'
+import { DemandHistoryTimeline } from '@/components/DemandHistoryTimeline'
 import pb from '@/lib/pocketbase/client'
 
 export default function AssociacaoPage() {
@@ -138,10 +140,17 @@ export default function AssociacaoPage() {
         status: 'aberto',
       })
 
-      // Atualizar status das demandas para "publicada"
+      // Atualizar status das demandas para "publicada" + registrar evento no histórico
       for (const d of demands) {
         if (d.id && d.status === 'recebida') {
           await updateDemand(d.id, { status: 'publicada', group_key: ch.id })
+          await recordDemandEvent({
+            demand: d.id,
+            event_type: 'desafio_publicado',
+            actor: 'associacao',
+            description: `A Associação Comercial publicou o desafio coletivo "${ch.title}".`,
+            status_after: 'publicada',
+          })
         }
       }
 
@@ -174,10 +183,18 @@ export default function AssociacaoPage() {
           'Aprovado pela AC Marília para início do piloto coletivo de 14 dias com 3 lojistas.',
       })
 
-      // Atualizar demandas para "piloto_aprovado"
+      // Atualizar demandas para "piloto_aprovado" + registrar evento no histórico
       for (const d of demands) {
         if (d.id) {
           await updateDemand(d.id, { status: 'piloto_aprovado' })
+          await recordDemandEvent({
+            demand: d.id,
+            event_type: 'piloto_aprovado',
+            actor: 'associacao',
+            description:
+              'A Associação Comercial aprovou o início do piloto coletivo com a startup.',
+            status_after: 'piloto_aprovado',
+          })
         }
       }
 
@@ -468,6 +485,12 @@ export default function AssociacaoPage() {
                 {filteredDemands.map((dmd) => (
                   <tr key={dmd.id} className="hover:bg-stone-50/50 transition-colors">
                     <td className="p-3.5">
+                      <Badge
+                        variant="outline"
+                        className="font-mono text-[11px] border-[#125435]/40 text-[#125435] bg-emerald-50 mb-1"
+                      >
+                        {dmd.code || 'Código pendente'}
+                      </Badge>
                       <div className="font-semibold text-stone-900">{dmd.municipality}</div>
                       <span className="text-xs text-stone-500">{dmd.segment}</span>
                     </td>
@@ -486,14 +509,17 @@ export default function AssociacaoPage() {
                       </Badge>
                     </td>
                     <td className="p-3.5 text-right whitespace-nowrap">
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => setChallengeModalOpen(true)}
-                        className="text-xs text-[#125435]"
-                      >
-                        Agrupar em desafio
-                      </Button>
+                      <div className="inline-flex items-center gap-1.5">
+                        <DemandHistoryTimeline demand={dmd} />
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => setChallengeModalOpen(true)}
+                          className="text-xs text-[#125435]"
+                        >
+                          Agrupar em desafio
+                        </Button>
+                      </div>
                     </td>
                   </tr>
                 ))}

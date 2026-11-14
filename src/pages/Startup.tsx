@@ -26,6 +26,8 @@ import {
   updateChallenge,
 } from '@/services/vitrineService'
 import type { ChallengeRecord, ProposalRecord } from '@/types/vitrine'
+import { recordProposalEventsForChallenge } from '@/services/demandHistoryService'
+import { ChallengeDemandHistory } from '@/components/ChallengeDemandHistory'
 import pb from '@/lib/pocketbase/client'
 
 export default function StartupPage() {
@@ -48,6 +50,7 @@ export default function StartupPage() {
 
   const [hasInterest, setHasInterest] = useState<Record<string, boolean>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [refreshKey, setRefreshKey] = useState(0)
 
   async function loadData() {
     const [chs, props] = await Promise.all([listChallenges(), listProposals()])
@@ -64,10 +67,14 @@ export default function StartupPage() {
     // Realtime SSE
     const u1 = pb.collection('challenges').subscribe('*', () => loadData())
     const u2 = pb.collection('proposals').subscribe('*', () => loadData())
+    const u3 = pb.collection('demand_events').subscribe('*', () => {
+      setRefreshKey((k) => k + 1)
+    })
 
     return () => {
       u1.then((f) => f())
       u2.then((f) => f())
+      u3.then((f) => f())
     }
   }, [])
 
@@ -111,6 +118,12 @@ export default function StartupPage() {
         pilot_evaluation: pilotEvaluation,
         status: 'enviada',
       })
+
+      // Registra o evento no histórico das demandas agrupadas neste desafio
+      await recordProposalEventsForChallenge(
+        selectedChallenge.id,
+        'ConectaVarejo Labs (Startup demo)',
+      )
 
       toast({
         title: 'Proposta enviada com sucesso!',
@@ -302,6 +315,9 @@ export default function StartupPage() {
               />
             </div>
           </div>
+
+          {/* Histórico coletivo das demandas agrupadas neste desafio */}
+          <ChallengeDemandHistory challengeId={selectedChallenge.id} refreshKey={refreshKey} />
 
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-stone-100">
             <span className="text-xs text-stone-500">
