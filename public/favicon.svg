@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <title>Vitrine Viva</title>
+  <desc>Glifo de vitrine com toldo em verde profundo sobre fundo marfim, ondas em ambar.</desc>
+  <rect width="32" height="32" rx="7" fill="#F7F2E7"/>
+  <g>
+    <rect x="5" y="4.6" width="22" height="2.4" rx="1.2" fill="#125435"/>
+    <path d="M5 7 H27 V10.4 H5 Z" fill="#125435"/>
+    <path d="M5 10.4 a2.75 2.75 0 0 0 5.5 0 a2.75 2.75 0 0 0 5.5 0 a2.75 2.75 0 0 0 5.5 0 a2.75 2.75 0 0 0 5.5 0 Z" fill="#E3A233"/>
+    <rect x="7.6" y="13.6" width="10.2" height="13" rx="1.5" fill="#125435"/>
+    <rect x="20.4" y="13.6" width="4" height="13" rx="1.4" fill="#125435"/>
+    <path d="M9.4 15.6 h3.4 l-3.4 4.6 z" fill="#F7F2E7"/>
+  </g>
+</svg>

@@ -1,0 +1,17 @@
+{
+  "name": "Vitrine Viva — Rede de Soluções",
+  "short_name": "Vitrine Viva",
+  "description": "Rede que conecta o comércio local a soluções de tecnologia (Hackathon 7.0 Connect — FACESP).",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#F7F2E7",
+  "theme_color": "#125435"
+}
