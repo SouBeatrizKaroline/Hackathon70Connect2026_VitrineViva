@@ -1,5 +1,5 @@
 /**
- * Gera o ícone da Vitrine Viva em PNG via <canvas>, a partir da mesma geometria
+ * Gera o ícone da vivIA em PNG via <canvas>, a partir da mesma geometria
  * de public/favicon.svg. Injeta apple-touch-icon (180px) no <head> para que o
  * ícone apareça quando o app é adicionado à tela inicial do celular.
  */

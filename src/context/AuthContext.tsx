@@ -10,7 +10,10 @@ interface DemoUser {
   role: UserRole
 }
 
-const DEMO_ACCOUNTS: Record<UserRole, DemoUser> = {
+// Apenas perfis de demonstração limitados. A conta de administrador não fica no código.
+type DemoRole = Exclude<UserRole, 'admin'>
+
+const DEMO_ACCOUNTS: Record<DemoRole, DemoUser> = {
   lojista: {
     email: 'lojista.demo@vitrineviva.com.br',
     name: 'Marina Ribeiro (Lojista demo)',
@@ -25,11 +28,6 @@ const DEMO_ACCOUNTS: Record<UserRole, DemoUser> = {
     email: 'startup.demo@vitrineviva.com.br',
     name: 'ConectaVarejo Labs (Startup demo)',
     role: 'startup',
-  },
-  admin: {
-    email: '1aspiraqualquer@gmail.com',
-    name: 'Administrador Hackathon',
-    role: 'admin',
   },
 }
 
@@ -73,6 +71,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [])
 
   const switchDemoRole = async (targetRole: UserRole, notify = true) => {
+    if (targetRole === 'admin') return
     const account = DEMO_ACCOUNTS[targetRole]
     try {
       const authData = await pb.collection('users').authWithPassword(account.email, 'Skip@Pass')

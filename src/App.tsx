@@ -15,6 +15,12 @@ import DesafioDetalhePage from '@/pages/DesafioDetalhe'
 import EntrarPage from '@/pages/Entrar'
 import CriarContaPage from '@/pages/CriarConta'
 import EsqueciSenhaPage from '@/pages/EsqueciSenha'
+import RelatarPage from '@/pages/Relatar'
+import EntendimentoPage from '@/pages/Entendimento'
+import CaminhosPage from '@/pages/Caminhos'
+import CompararPage from '@/pages/Comparar'
+import AcompanharPage from '@/pages/Acompanhar'
+import RadarPage from '@/pages/Radar'
 import NotFound from '@/pages/NotFound'
 import { Toaster } from '@/components/ui/toaster'
 import { AuthProvider } from '@/context/AuthContext'
@@ -28,6 +34,12 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<Index />} />
+              <Route path="relatar" element={<RelatarPage />} />
+              <Route path="entendimento" element={<EntendimentoPage />} />
+              <Route path="caminhos" element={<CaminhosPage />} />
+              <Route path="comparar" element={<CompararPage />} />
+              <Route path="acompanhar" element={<AcompanharPage />} />
+              <Route path="radar" element={<RadarPage />} />
               <Route path="diagnostico" element={<DiagnosticoPage />} />
               <Route path="recomendacoes" element={<RecomendacoesPage />} />
               <Route path="solucao/:id" element={<SolucaoDetalhePage />} />

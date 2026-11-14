@@ -101,7 +101,7 @@ export default function AssociacaoConfiguracaoPage() {
             Configuracao da Associacao Comercial
           </h1>
           <p className="text-stone-600 text-sm">
-            Adapte a Vitrine Viva para a escala da sua AC: equipe pequena ou nucleo de inovacao
+            Adapte a vivIA para a escala da sua AC: equipe pequena ou nucleo de inovacao
             aberta.
           </p>
         </div>

@@ -1,131 +1,45 @@
-# Projeto Criado com o Skip
+# vivIA — Conecta Soluções
 
-Este projeto foi criado de ponta a ponta com o [Skip](https://goskip.dev).
+Protótipo do Hackathon 7.0 Connect, desafio FACESP.
 
-## 🚀 Stack Tecnológica
+A vivIA transforma a necessidade de um pequeno negócio em uma demanda clara e a conecta a fornecedores de tecnologia, com apoio da associação comercial. O lojista explica o que está acontecendo, por áudio ou texto, sem precisar saber o nome da tecnologia. A plataforma organiza o relato, confirma o entendimento, mostra caminhos, permite comparar propostas e acompanha o pedido até o piloto.
 
-- **React 19** - Biblioteca JavaScript para construção de interfaces
-- **Vite** - Build tool extremamente rápida
-- **TypeScript** - Superset tipado do JavaScript
-- **Shadcn UI** - Componentes reutilizáveis e acessíveis
-- **Tailwind CSS** - Framework CSS utility-first
-- **React Router** - Roteamento para aplicações React
-- **React Hook Form** - Gerenciamento de formulários performático
-- **Zod** - Validação de schemas TypeScript-first
-- **Recharts** - Biblioteca de gráficos para React
+> **Demonstração.** Fornecedores, preços, propostas, retornos e contagens do Radar são fictícios e estão rotulados no app. Não há integração com WhatsApp, catálogo real de parceiros nem resultado de piloto medido.
 
-## 📋 Pré-requisitos
+## Jornada principal
 
-- Node.js 18+
-- npm
+| Etapa | Rota | O que acontece |
+| --- | --- | --- |
+| Início | `/` | "Gravar áudio" ou "Prefiro escrever", em até dois toques |
+| Relato | `/relatar` | Fala (reconhecimento do navegador, limite de 90 s) ou texto; aviso de privacidade antes de começar |
+| Entendimento | `/entendimento` | Resumo editável: objetivo, situação, tipo de solução, restrições, urgência e resultado esperado; nada segue sem confirmação |
+| Caminhos | `/caminhos` | Até três caminhos, ordenados por adequação, com o que resolve, por que combina e o que confirmar |
+| Comparar | `/comparar` | Fornecedores fictícios lado a lado; dado ausente aparece como "Não informado — confirmar com o fornecedor" |
+| Acompanhar | `/acompanhar` | Linha de status da demanda, com correção e cancelamento |
+| Radar | `/radar` | Visão agregada da associação por tema, segmento e município, sem relato individual |
 
-## 🔧 Instalação
+As telas do protótipo anterior (diagnóstico em formulário, teste interativo, painel completo da associação e área de startups) continuam disponíveis em "Apresentar à banca", na página inicial.
 
-```bash
-npm install
-```
+## Como a demo funciona
 
-## 💻 Scripts Disponíveis
+- **Voz:** usa o reconhecimento de fala do próprio navegador para gerar texto. O áudio não é gravado nem guardado. Sem microfone ou sem permissão, o fluxo segue por texto, e há uma transcrição de exemplo identificada como demonstração.
+- **Entendimento e recomendações:** motor de regras local (`src/lib/jornada/interpretar.ts`) sobre um catálogo fictício curado (`src/lib/jornada/catalogo.ts`). Não é um modelo de linguagem.
+- **Estado da jornada:** fica no `localStorage` do aparelho (`src/lib/jornada/store.ts`).
+- **Radar:** grupos com menos de três demandas não aparecem; a demanda do lojista só entra na contagem se ele autorizar.
 
-### Desenvolvimento
+## Stack
 
-```bash
-# Iniciar servidor de desenvolvimento
-npm start
-# ou
-npm run dev
-```
+React 19, Vite, TypeScript, Tailwind CSS, Shadcn UI e React Router, com PocketBase no backend das telas do protótipo anterior. Projeto criado com o [Skip](https://goskip.dev).
 
-Abre a aplicação em modo de desenvolvimento em [http://localhost:5173](http://localhost:5173).
-
-### Build
+## Rodar localmente
 
 ```bash
-# Build para produção
-npm run build
-
-# Build para desenvolvimento
-npm run build:dev
+pnpm install
+pnpm dev      # http://localhost:5173
+pnpm build    # gera dist/
+pnpm lint
 ```
 
-Gera os arquivos otimizados para produção na pasta `dist/`.
+## Equipe
 
-### Preview
-
-```bash
-# Visualizar build de produção localmente
-npm run preview
-```
-
-Permite visualizar a build de produção localmente antes do deploy.
-
-### Linting e Formatação
-
-```bash
-# Executar linter
-npm run lint
-
-# Executar linter e corrigir problemas automaticamente
-npm run lint:fix
-
-# Formatar código com Oxfmt
-npm run format
-```
-
-## 📁 Estrutura do Projeto
-
-```
-.
-├── src/              # Código fonte da aplicação
-├── public/           # Arquivos estáticos
-├── dist/             # Build de produção (gerado)
-├── node_modules/     # Dependências (gerado)
-└── package.json      # Configurações e dependências do projeto
-```
-
-## 🎨 Componentes UI
-
-Este template inclui uma biblioteca completa de componentes Shadcn UI baseados em Radix UI:
-
-- Accordion
-- Alert Dialog
-- Avatar
-- Button
-- Checkbox
-- Dialog
-- Dropdown Menu
-- Form
-- Input
-- Label
-- Select
-- Switch
-- Tabs
-- Toast
-- Tooltip
-- E muito mais...
-
-## 📝 Ferramentas de Qualidade de Código
-
-- **TypeScript**: Tipagem estática
-- **Oxlint**: Linter extremamente rápido
-- **Oxfmt**: Formatação automática de código
-
-## 🔄 Workflow de Desenvolvimento
-
-1. Instale as dependências: `npm install`
-2. Inicie o servidor de desenvolvimento: `npm start`
-3. Faça suas alterações
-4. Verifique o código: `npm run lint`
-5. Formate o código: `npm run format`
-6. Crie a build: `npm run build`
-7. Visualize a build: `npm run preview`
-
-## 📦 Build e Deploy
-
-Para criar uma build otimizada para produção:
-
-```bash
-npm run build
-```
-
-Os arquivos otimizados serão gerados na pasta `dist/` e estarão prontos para deploy.
+Hackathon 7.0 Connect · FACESP.
