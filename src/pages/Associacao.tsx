@@ -16,6 +16,8 @@ import {
   AlertTriangle,
   RefreshCw,
   FolderPlus,
+  Layers3,
+  PencilLine,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -43,6 +45,11 @@ import {
 import type { DemandRecord, ChallengeRecord, ProposalRecord, PilotRecord } from '@/types/vitrine'
 import { recordDemandEvent } from '@/services/demandHistoryService'
 import { DemandHistoryTimeline } from '@/components/DemandHistoryTimeline'
+import {
+  buildClusterJustification,
+  buildClusterJustificationShort,
+  buildChallengeSummary,
+} from '@/services/clusterJustification'
 import pb from '@/lib/pocketbase/client'
 
 export default function AssociacaoPage() {
@@ -68,6 +75,9 @@ export default function AssociacaoPage() {
   const [challengeDesc, setChallengeDesc] = useState(
     'Reunimos 3 mercearias e quitandas de Tatuí e Ourinhos com quedas frequentes de internet que precisam operar o balcão e WhatsApp sem travar o estoque.',
   )
+  // Demandas selecionadas para o agrupamento (checkbox no Radar)
+  const [selectedDemandIds, setSelectedDemandIds] = useState<string[]>([])
+  const [justificationEdited, setJustificationEdited] = useState(false)
   const [challengeClusterReason, setChallengeClusterReason] = useState(
     '3 demandas precisam operar com internet instável — mesmo requisito indispensável e mesma faixa de preço (até R$ 60/mês).',
   )
@@ -122,8 +132,46 @@ export default function AssociacaoPage() {
     return true
   })
 
+  // Demandas efetivamente selecionadas para o agrupamento atual
+  const groupedDemands = demands.filter((d) => d.id && selectedDemandIds.includes(d.id))
+  // Pré-seleciona automaticamente as demandas ainda não encaminhadas (status recebida)
+  useEffect(() => {
+    const auto = demands.filter((d) => d.status === 'recebida' && d.id).map((d) => d.id!)
+    if (selectedDemandIds.length === 0 && auto.length > 0) {
+      setSelectedDemandIds(auto)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [demands])
+
+  // Justificativa auto-gerada (só recalcula enquanto a associação não editar)
+  const autoJustification = buildClusterJustification(groupedDemands)
+  const shortJustification =
+    selectedDemandIds.length > 0 ? buildClusterJustificationShort(groupedDemands) : ''
+  const summary = buildChallengeSummary(groupedDemands)
+
+  function toggleDemandSelection(id: string) {
+    setSelectedDemandIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
+    )
+    setJustificationEdited(false)
+  }
+
+  function openChallengeModal() {
+    setJustificationEdited(false)
+    setChallengeClusterReason(buildClusterJustification(groupedDemands))
+    setChallengeModalOpen(true)
+  }
+
   // Publicar Desafio a partir do Agrupamento
   const handlePublishChallenge = async () => {
+    if (selectedDemandIds.length === 0) {
+      toast({
+        variant: 'destructive',
+        title: 'Selecione ao menos uma demanda',
+        description: 'Marque as demandas no Radar que devem entrar no desafio coletivo.',
+      })
+      return
+    }
     setIsPublishingChallenge(true)
     try {
       const ch = await createChallenge({
@@ -135,23 +183,32 @@ export default function AssociacaoPage() {
         common_problem: 'Estoque físico divergente e vendas travadas durante oscilações de conexão',
         common_requirements: ['opera_offline', 'funciona_celular', 'suporte_portugues'],
         cluster_reason: challengeClusterReason,
-        demands_count: demands.length || 3,
+        demands_count: selectedDemandIds.length,
         interested_startups: 1,
         status: 'aberto',
       })
 
       // Atualizar status das demandas para "publicada" + registrar evento no histórico
-      for (const d of demands) {
-        if (d.id && d.status === 'recebida') {
-          await updateDemand(d.id, { status: 'publicada', group_key: ch.id })
-          await recordDemandEvent({
-            demand: d.id,
-            event_type: 'desafio_publicado',
-            actor: 'associacao',
-            description: `A Associação Comercial publicou o desafio coletivo "${ch.title}".`,
-            status_after: 'publicada',
-          })
-        }
+      for (const d of groupedDemands) {
+        if (!d.id) continue
+        await updateDemand(d.id, { status: 'publicada', group_key: ch.id })
+        // Evento de agrupamento com a JUSTIFICATIVA — visível ao lojista na timeline
+        await recordDemandEvent({
+          demand: d.id,
+          event_type: 'demand_agrupada',
+          actor: 'associacao',
+          title: 'Agrupada em desafio coletivo',
+          description: challengeClusterReason,
+          status_after: 'agrupada',
+        })
+        // Evento de publicação
+        await recordDemandEvent({
+          demand: d.id,
+          event_type: 'desafio_publicado',
+          actor: 'associacao',
+          description: `A Associação Comercial publicou o desafio coletivo "${ch.title}".`,
+          status_after: 'publicada',
+        })
       }
 
       setChallengeModalOpen(false)
@@ -352,18 +409,18 @@ export default function AssociacaoPage() {
               </Badge>
             </div>
             <h2 className="font-serif-title text-2xl text-stone-900 font-normal">
-              3 demandas identificadas com a mesma carência
+              {summary.storesPhrase} demandas identificadas com a mesma carência
             </h2>
             <p className="text-xs sm:text-sm text-amber-950 font-medium">
-              💡 <strong>Motivo do agrupamento:</strong> 3 demandas de alimentação precisam operar
-              com internet instável — mesmo requisito indispensável e mesma faixa de preço (até R$
-              60/mês).
+              💡 <strong>Justificativa do agrupamento (gerada automaticamente):</strong>{' '}
+              {autoJustification}
             </p>
           </div>
 
           <Button
             size="sm"
-            onClick={() => setChallengeModalOpen(true)}
+            onClick={openChallengeModal}
+            disabled={selectedDemandIds.length === 0}
             className="bg-[#125435] text-white hover:bg-emerald-900 font-semibold shrink-0"
           >
             <FolderPlus className="w-4 h-4 mr-1.5" />
@@ -478,12 +535,20 @@ export default function AssociacaoPage() {
                   <th className="p-3.5 font-medium">Problema e Impacto</th>
                   <th className="p-3.5 font-medium">Orçamento</th>
                   <th className="p-3.5 font-medium">Status na Rede</th>
+                  <th className="p-3.5 font-medium text-center">Agrupar</th>
                   <th className="p-3.5 font-medium text-right">Ação</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-stone-100">
                 {filteredDemands.map((dmd) => (
-                  <tr key={dmd.id} className="hover:bg-stone-50/50 transition-colors">
+                  <tr
+                    key={dmd.id}
+                    className={`transition-colors ${
+                      dmd.id && selectedDemandIds.includes(dmd.id)
+                        ? 'bg-amber-50/70'
+                        : 'hover:bg-stone-50/50'
+                    }`}
+                  >
                     <td className="p-3.5">
                       <Badge
                         variant="outline"
@@ -508,13 +573,27 @@ export default function AssociacaoPage() {
                         {dmd.status.replace('_', ' ')}
                       </Badge>
                     </td>
+                    <td className="p-3.5 text-center">
+                      <input
+                        type="checkbox"
+                        aria-label={`Agrupar demanda ${dmd.code || dmd.id}`}
+                        checked={!!dmd.id && selectedDemandIds.includes(dmd.id)}
+                        onChange={() => dmd.id && toggleDemandSelection(dmd.id)}
+                        className="w-4 h-4 accent-[#125435] cursor-pointer"
+                      />
+                    </td>
                     <td className="p-3.5 text-right whitespace-nowrap">
                       <div className="inline-flex items-center gap-1.5">
                         <DemandHistoryTimeline demand={dmd} />
                         <Button
                           size="sm"
                           variant="ghost"
-                          onClick={() => setChallengeModalOpen(true)}
+                          onClick={() => {
+                            if (dmd.id && !selectedDemandIds.includes(dmd.id)) {
+                              toggleDemandSelection(dmd.id)
+                            }
+                            openChallengeModal()
+                          }}
                           className="text-xs text-[#125435]"
                         >
                           Agrupar em desafio
@@ -627,6 +706,69 @@ export default function AssociacaoPage() {
               />
             </div>
 
+            {/* Resumo agregado das demandas selecionadas */}
+            {groupedDemands.length > 0 && (
+              <div className="p-3 bg-stone-50 rounded-lg border border-stone-200 text-xs space-y-1.5">
+                <div className="font-bold text-stone-800 flex items-center gap-1.5">
+                  <Users className="w-3.5 h-3.5 text-[#125435]" />
+                  Resumo agregado: {summary.storesPhrase} com interesse
+                </div>
+                <div className="text-stone-600">
+                  <strong>Requisitos indispensáveis comuns:</strong>{' '}
+                  {summary.requirements.length > 0 ? summary.requirements.join(', ') : '—'}
+                </div>
+                <div className="text-stone-600">
+                  <strong>Canais de venda:</strong>{' '}
+                  {summary.channels.length > 0 ? summary.channels.join(', ') : '—'}
+                </div>
+                <div className="text-stone-600">
+                  <strong>Resultado que será avaliado:</strong>{' '}
+                  {summary.desiredResults.length > 0 ? summary.desiredResults[0] : '—'}
+                </div>
+              </div>
+            )}
+
+            {/* JUSTIFICATIVA DO AGRUPAMENTO — auto-gerada e EDITÁVEL antes de publicar */}
+            <div className="space-y-1">
+              <div className="flex items-center justify-between">
+                <label className="font-semibold text-amber-900 flex items-center gap-1.5">
+                  <PencilLine className="w-3.5 h-3.5" />
+                  Justificativa do agrupamento (editável):
+                </label>
+                {!justificationEdited && groupedDemands.length > 0 && (
+                  <span className="text-[10px] text-amber-700">gerada automaticamente</span>
+                )}
+              </div>
+              <Textarea
+                rows={4}
+                value={challengeClusterReason}
+                onChange={(e) => {
+                  setChallengeClusterReason(e.target.value)
+                  setJustificationEdited(true)
+                }}
+                className="text-xs bg-amber-50 border-amber-300"
+              />
+              <div className="flex items-center justify-between">
+                <p className="text-[10px] text-stone-500">
+                  Ajuste o texto livremente — ele vai para a página do desafio e para o histórico de
+                  cada lojista.
+                </p>
+                {groupedDemands.length > 0 && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-[10px] h-5 px-1.5 text-amber-700"
+                    onClick={() => {
+                      setChallengeClusterReason(buildClusterJustification(groupedDemands))
+                      setJustificationEdited(false)
+                    }}
+                  >
+                    Gerar novamente
+                  </Button>
+                )}
+              </div>
+            </div>
+
             <div className="space-y-1">
               <label className="font-semibold text-stone-700">
                 Descrição agregada para as startups:
@@ -636,15 +778,6 @@ export default function AssociacaoPage() {
                 value={challengeDesc}
                 onChange={(e) => setChallengeDesc(e.target.value)}
                 className="text-xs"
-              />
-            </div>
-
-            <div className="space-y-1">
-              <label className="font-semibold text-stone-700">Motivo do agrupamento:</label>
-              <Input
-                value={challengeClusterReason}
-                onChange={(e) => setChallengeClusterReason(e.target.value)}
-                className="text-xs bg-amber-50"
               />
             </div>
 

@@ -28,6 +28,7 @@ import {
 import type { ChallengeRecord, ProposalRecord } from '@/types/vitrine'
 import { recordProposalEventsForChallenge } from '@/services/demandHistoryService'
 import { ChallengeDemandHistory } from '@/components/ChallengeDemandHistory'
+import { ChallengeClusterReason } from '@/components/ChallengeClusterReason'
 import pb from '@/lib/pocketbase/client'
 
 export default function StartupPage() {
@@ -211,9 +212,7 @@ export default function StartupPage() {
 
                 <p className="text-xs text-stone-600 leading-relaxed">{ch.description}</p>
 
-                <div className="p-2.5 rounded bg-stone-100 text-[11px] text-stone-700">
-                  <strong>Motivo do agrupamento:</strong> {ch.cluster_reason}
-                </div>
+                <ChallengeClusterReason reason={ch.cluster_reason} />
 
                 <div className="flex items-center justify-between pt-2 border-t border-stone-100">
                   <Button
