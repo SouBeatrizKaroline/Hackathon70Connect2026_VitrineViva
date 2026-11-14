@@ -17,7 +17,7 @@ export default function EntrarPage() {
 
   const handleDemoQuick = async (role: UserRole) => {
     await switchDemoRole(role)
-    if (role === 'lojista') navigate('/diagnostico')
+    if (role === 'lojista') navigate('/')
     else if (role === 'associacao') navigate('/associacao')
     else if (role === 'startup') navigate('/startup')
   }
@@ -34,7 +34,7 @@ export default function EntrarPage() {
     <div className="max-w-md mx-auto space-y-6 py-8 animate-fade-in">
       <div className="text-center space-y-1">
         <h1 className="font-serif-title text-3xl text-stone-900 font-normal">
-          Acesso à Vitrine Viva
+          Acesso à vivIA
         </h1>
         <p className="text-xs sm:text-sm text-stone-600">
           Navegue com perfis de demonstração pré-configurados em 1 clique ou entre com sua conta.

@@ -308,7 +308,7 @@ export default function RecomendacoesPage() {
         <div>
           <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#125435]">
             <Sparkles className="w-4 h-4 text-amber-500" />
-            <span>Recomendações da Vitrine Viva</span>
+            <span>Recomendações da vivIA</span>
           </div>
           <h1 className="font-serif-title text-3xl sm:text-4xl text-stone-900 font-normal mt-1">
             Soluções compatíveis com a sua loja

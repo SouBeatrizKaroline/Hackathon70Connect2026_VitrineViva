@@ -44,7 +44,7 @@ export default function CriarContaPage() {
     <div className="max-w-md mx-auto space-y-6 py-8 animate-fade-in">
       <div className="text-center space-y-1">
         <h1 className="font-serif-title text-3xl text-stone-900 font-normal">
-          Criar conta na Vitrine Viva
+          Criar conta na vivIA
         </h1>
         <p className="text-xs sm:text-sm text-stone-600">
           Você também pode testar 100% da plataforma sem cadastro na página inicial.

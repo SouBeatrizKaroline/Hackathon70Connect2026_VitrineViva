@@ -165,7 +165,7 @@ export default function PilotoPage() {
 
           <div className="p-4 bg-emerald-50 rounded-xl space-y-1 border border-emerald-200">
             <span className="text-xs text-emerald-800 font-medium">
-              Valor final alcançado (após 7 dias)
+              Valor final simulado (após 7 dias)
             </span>
             <div className="font-serif-title text-2xl font-bold text-[#125435]">45 minutos</div>
             <span className="text-[11px] text-emerald-700 block">
@@ -177,10 +177,10 @@ export default function PilotoPage() {
         {/* Barra Comparativa com Delta de Melhora */}
         <div className="p-4 rounded-xl bg-[#FAF7F0] border border-[#125435]/20 space-y-2">
           <div className="flex items-center justify-between text-xs sm:text-sm">
-            <span className="font-semibold text-stone-800">Diferença apurada:</span>
+            <span className="font-semibold text-stone-800">Diferença simulada:</span>
             <span className="font-bold text-[#125435] flex items-center gap-1">
               <TrendingDown className="w-4 h-4 text-emerald-600" />
-              −3h15 · {improvementPercent}% de melhora no tempo de resposta
+              −3h15 · {improvementPercent}% no cenário simulado (não é resultado medido)
             </span>
           </div>
 
@@ -190,8 +190,8 @@ export default function PilotoPage() {
           </div>
 
           <div className="flex items-center justify-between text-[11px] text-stone-500">
-            <span>Tempo economizado: 195 minutos por atendimento</span>
-            <span>Meta superada</span>
+            <span>Diferença simulada: 195 minutos por atendimento</span>
+            <span>Simulação · meta ainda não medida</span>
           </div>
         </div>
 

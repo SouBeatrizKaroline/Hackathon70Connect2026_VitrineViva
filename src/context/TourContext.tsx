@@ -43,7 +43,7 @@ const SCENARIO_A_STEPS: TourStep[] = [
   },
   {
     title: 'Cenário A · Passo 4 de 5: Piloto de 7 dias e Decisão',
-    text: 'Tempo de primeira resposta caiu de 4h para 45min (81% de melhora). O lojista decide Continuar com a solução.',
+    text: 'Valores simulados: tempo de primeira resposta de 4h para 45min. Não é resultado medido. O lojista decide se continua.',
     route: '/piloto',
     targetHint: 'Barra comparativa e botões de decisão',
     actionLabel: 'Acompanhar em Minhas Solicitações',
