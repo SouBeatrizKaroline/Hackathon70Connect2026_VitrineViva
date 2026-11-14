@@ -121,7 +121,12 @@ export default function RecomendacoesPage() {
   const channels = diagnostic?.channels || []
 
   // Classificar soluções em Elegíveis vs Excluídas
-  const eligibleSolutions: { item: SolutionItem; score: number; matchReasons: string[] }[] = []
+  const eligibleSolutions: {
+    item: SolutionItem
+    score: number
+    matchReasons: string[]
+    attentionPoint?: string
+  }[] = []
   const excludedSolutions: { item: SolutionItem; reason: string }[] = []
 
   for (const sol of solutions) {
@@ -209,8 +214,8 @@ export default function RecomendacoesPage() {
       item: sol,
       score,
       matchReasons: specificReasons,
+      attentionPoint,
     })
-    ;(eligibleSolutions[eligibleSolutions.length - 1] as any).attentionPoint = attentionPoint
   }
 
   // Ordenar elegíveis pelo score descendente
